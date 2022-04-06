@@ -10,6 +10,10 @@ function App () {
         <Routes>
           <Route path="/input" element={<InputDate />} />
           <Route path="/crawled" element={<Crawled />} />
+          <Route path='/privacy-policy' element={() => {
+            window.location.href = 'https://example.com/1234';
+            return null;
+          }} />
         </Routes>
       </div>
     </BrowserRouter >
