@@ -6,6 +6,7 @@ module.exports = function (app) {
             pathRewrite: { '^/naver': '' },
             changeOrigin: true
         })
+
     )
 
 };

@@ -16,23 +16,6 @@ export default function InputDate () {
         e.preventDefault();
         console.log(dayRef.current.value)
         console.log(url_a + dayRef.current.value + url_b + url_c)
-        // try {
-        //     axios({ url: url_a + dayRef.current.value + url_b + url_c, method: "GET", responseType: "arraybuffer" }, {
-        //         withCredentials: true // 쿠키 cors 통신 설정
-        //     }).then(function (html) {
-        //         const content = iconv.decode(html.data, 'utf-8').toString() //한글깨짐 방지
-        //         const $ = cheerio.load(content)
-        //         const table = $(".news_tit")  //리스트로 담음
-        //         const result = [];
-        //         table.each(function (i, element) {
-        //             const title = $(element).text();
-        //             const link = $(element).attr('href');
-        //             console.log(title);
-        //         })
-        //     })
-        // } catch (err) {
-        //     console.log(err);
-        // }
 
         const getHTML = async (url) => {
             try {
