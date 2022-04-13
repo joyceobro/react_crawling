@@ -1,24 +1,27 @@
-var Sequelize = require("sequelize");
-var sequelize;
+const sqlite3 = require('sqlite3').verbose();
 
-sequelize = new Sequelize("news_db", "root", "mysql9p", {
-    host: "localhost",
-    port: 3306,
-    dialect: "mysql",
-    timezone: "+09:00",
-    define: {
-        charset: "utf8",
-        collate: "utf8_general_ci",
-        timestamps: true,
-        freezeTableName: true
+let db = new sqlite3.Database('../db/chinook.db', (err) => {
+    if (err) {
+        console.error(err.message);
     }
+    console.log('Connected to the chinook database.');
 })
-var db = {};
-db.users = require(__dirname + "/users.js")(sequelize, Sequelize.DataTypes);
-db.news_raw = require(__dirname + "/news_raw.js")(sequelize, Sequelize.DataTypes);
-db.select_news = require(__dirname + "/select_news.js")(sequelize, Sequelize.DataTypes);
 
-db.sequelize = sequelize;
-db.Sequelize = Sequelize;
+// close the database connection
 
+//db.run(`DROP TABLE select_news;`);
+db.run('CREATE TABLE select_news(id integer primary key, select_title TEXT not null, select_link TEXT unique)',
+    err => {
+        if (err) {
+            return console.error(err.message);
+        }
+        console.log("Successful creation of the 'select_news' table!");
+    });
+
+// db.close((err) => {
+//     if (err) {
+//         return console.error(err.message);
+//     }
+//     console.log('Close the database connection.');
+// });
 module.exports = db;
