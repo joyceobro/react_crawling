@@ -24,4 +24,6 @@ db.run('CREATE TABLE select_news(id integer primary key, select_title TEXT not n
 //     }
 //     console.log('Close the database connection.');
 // });
+
+
 module.exports = db;

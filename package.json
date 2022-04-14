@@ -2,6 +2,8 @@
   "name": "news_react",
   "version": "0.1.0",
   "private": true,
+  "main": "public/electron.js",
+  "homepage": "./",
   "dependencies": {
     "@testing-library/jest-dom": "^5.16.3",
     "@testing-library/react": "^12.1.4",
@@ -24,10 +26,13 @@
     "web-vitals": "^2.1.4"
   },
   "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
-    "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "react-start": "react-scripts start",
+    "react-build": "react-scripts build",
+    "react-test": "react-scripts test",
+    "react-eject": "react-scripts eject",
+    "start": "concurrently \"cross-env NODE_ENV=development BROWSER=none npm run react-start\" \"wait-on http://localhost:3000 && electron .\"",
+    "build": "npm run react-build && electron-builder",
+    "release": "npm run react-build && electron-builder --publish=always"
   },
   "eslintConfig": {
     "extends": [
