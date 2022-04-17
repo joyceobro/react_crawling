@@ -5,20 +5,20 @@ const { contextBridge, ipcRenderer } = require("electron");
 contextBridge.exposeInMainWorld("myApi", {
     send: (channel, data) => {
         // whitelist channels
-        let validChannels = ["crawled-data"];
+        let validChannels = ["crawled-data", "read-data"];
         if (validChannels.includes(channel)) {
             ipcRenderer.send(channel, data);
         }
     },
     receive: (channel, func) => {
-        let validChannels = ["sql-return"];
+        let validChannels = ["return-data"];
         if (validChannels.includes(channel)) {
             // Deliberately strip event as it includes `sender`
             ipcRenderer.on(channel, (event, ...args) => func(...args));
         }
     },
     removeListeners: (channel) => {
-        let validChannels = ["sql-return-latest"];
+        let validChannels = ["return-data"];
         if (validChannels.includes(channel)) {
             // Deliberately strip event as it includes `sender`
             ipcRenderer.removeAllListeners(channel);

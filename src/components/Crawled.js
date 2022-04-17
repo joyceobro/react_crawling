@@ -1,38 +1,17 @@
 import { useLocation, useNavigate } from "react-router-dom";
-import { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 
 
 export default function Crawled () {
 
+
     const [checkedList, setCheckedList] = useState([]);
     const location = useLocation();
     const navigate = useNavigate();
-    console.log('state', location.state);
-    function onSubmit (e) {
+    function handleSubmit (e) {
         e.preventDefault();
-
-        (async () => {
-            await window.myApi.send("crawled-data", checkedList);
-            navigate('/selected', {
-                state: {
-                    data: checkedList,
-                },
-            });
-        })()
-
-        // fetch("http://localhost:4000/db_input", {
-        //     method: "post", 
-        //     headers: {
-        //         "content-type": "application/json",
-        //     },
-        //     body: JSON.stringify(checkedList),
-        // })
-        //     .then((res) => res.json()) //?
-        //     .then((json) => {
-        //         this.setState({
-        //             testbody: json.text,
-        //         });
-        //     });
+        window.myApi.send("crawled-data", checkedList)
+        navigate(-1)
     }
 
     function onCheckedElement (checked, item) {
@@ -41,32 +20,24 @@ export default function Crawled () {
         } else if (!checked) {
             setCheckedList(checkedList.filter(el => el !== item));//?
         }
-
     };
 
     return (
-        <>
-            <form onSubmit={onSubmit}>
-                <table>
-                    <tbody>
-                        {location.state.data.map(data => (
-                            <tr><td>
-                                <div>
-                                    <input type="checkbox" value={data.title} name={data.link}
-                                        onChange={e => {
-                                            onCheckedElement(e.target.checked, [e.target.value, e.target.name]);
-                                        }}
-                                    //checked={checkedList.includes(item.data) ? true : false}
-                                    />
-                                    <a href={data.link}>{data.title}</a>
-                                </div>
-                            </td></tr>
-                        ))}
 
-                    </tbody>
-                </table>
-                <button>저장</button>
-            </form>
-        </>
+        <form onSubmit={handleSubmit}>
+            {location.state.data && location.state.data.map((data, index) => (
+                <p key={index}>
+                    <input type="checkbox" value={data.title} name={data.link}
+                        onChange={(e) => {
+                            onCheckedElement(e.target.checked, [e.target.value, e.target.name]);
+                        }}
+                    //checked={checkedList.includes(item.data) ? true : false}
+                    />
+                    <a href={data.link}>{data.title}</a>
+                </p>
+            ))}
+            <button>저장</button>
+        </form>
+
     )
 }

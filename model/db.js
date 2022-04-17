@@ -18,6 +18,26 @@ db.run('CREATE TABLE select_news(id integer primary key, select_title TEXT not n
         console.log("Successful creation of the 'select_news' table!");
     });
 
+const getData = (query) => {
+
+    // let stmt = db.prepare(query);
+    // let res = stmt.all()
+    // return res
+
+    return new Promise((resolve, reject) => {
+
+        db.all(query, [], (err, arg) => {
+            console.log(query)
+            console.log("------")
+            if (err) reject(err);
+            else {
+                console.log(arg)
+                resolve(arg);
+            }
+        });
+    });
+}
+
 // db.close((err) => {
 //     if (err) {
 //         return console.error(err.message);
@@ -26,4 +46,4 @@ db.run('CREATE TABLE select_news(id integer primary key, select_title TEXT not n
 // });
 
 
-module.exports = db;
+module.exports = { db, getData };

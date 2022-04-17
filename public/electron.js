@@ -1,7 +1,8 @@
 const { app, BrowserWindow, ipcMain } = require("electron");
 const path = require("path");
 const isDev = require("electron-is-dev");
-const db = require('../model/db');
+const { db, getData } = require('../model/db');
+
 
 let mainWindow;
 
@@ -20,7 +21,7 @@ function createWindow () {
 
     mainWindow.loadURL(
         isDev
-            ? "http://localhost:3000/input"
+            ? "http://localhost:3000/"
             : `file://${path.join(__dirname, "../build/index.html")}`
     );
 
@@ -63,8 +64,7 @@ ipcMain.on("crawled-data", (event, arg) => {
                 console.log('insert item');
             })
     }
-    // let sql = `SELECT * FROM select_news`;
-    // db.all(sql, [], (err, rows) => {
+    // db.all("select * from select_news", [], (err, rows) => {
     //     if (err) {
     //         throw err;
     //     }
@@ -72,5 +72,17 @@ ipcMain.on("crawled-data", (event, arg) => {
     //         console.log(row);
     //     });
     // });
-    // db.close();
+});
+
+ipcMain.on("read-data", (event, arg) => {
+
+    // const return_db = db.all("select * from select_news")
+    // console.log(return_db)
+
+    let sql = `SELECT * FROM select_news where select_title like '%${arg}%'`;
+    console.log("query from renderer : ", sql);
+    getData(sql)
+        .then((res) => event.sender.send("return-data", res))
+        .catch((error) => console.log(error));
+    //db.close();
 });

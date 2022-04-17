@@ -32,6 +32,7 @@ export default function InputDate () {
                 const $ = cheerio.load(content)
                 const table = $(".news_tit")  //리스트로 담음
                 let result = [];
+
                 table.each(function (i, element) {
                     var data = new Object();
                     data.title = $(element).text();
