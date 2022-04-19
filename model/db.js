@@ -31,7 +31,7 @@ const getData = (query) => {
             console.log("------")
             if (err) reject(err);
             else {
-                console.log(arg)
+                //    console.log(arg)
                 resolve(arg);
             }
         });

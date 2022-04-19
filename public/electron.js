@@ -86,3 +86,16 @@ ipcMain.on("read-data", (event, arg) => {
         .catch((error) => console.log(error));
     //db.close();
 });
+
+ipcMain.on("read-all", (event) => {
+
+    // const return_db = db.all("select * from select_news")
+    // console.log(return_db)
+
+    let sql = `SELECT * FROM select_news`;
+    console.log("query from renderer : ", sql);
+    getData(sql)
+        .then((res) => event.sender.send("return-all", res))
+        .catch((error) => console.log(error));
+    //db.close();
+});

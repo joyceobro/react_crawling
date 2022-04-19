@@ -4,6 +4,19 @@
   "private": true,
   "main": "public/electron.js",
   "homepage": "./",
+  "build": {
+    "productName": "test-app",
+    "asar": true,
+    "appId": "org.cpro95.electron-test-app",
+    "files": [
+      "dist",
+      "model/*",
+      "package.json"
+    ],
+    "extraResources": [
+      "./db/**"
+    ]
+  },
   "dependencies": {
     "@testing-library/jest-dom": "^5.16.3",
     "@testing-library/react": "^12.1.4",
